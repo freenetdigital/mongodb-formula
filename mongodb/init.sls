@@ -81,10 +81,16 @@ mongodb_db_path:
       - group
 
 mongodb_config:
+{%- if 'mongod_settings' in mdb %}
+  file.serialize:
+    - dataset: {{ mdb.mongod_settings }}
+    - formatter: yaml
+{%- else %}
   file.managed:
-    - name: {{ mdb.conf_path }}
     - source: salt://mongodb/files/mongodb.conf.jinja
     - template: jinja
+{%- endif %}
+    - name: {{ mdb.conf_path }}
     - user: root
     - group: root
     - mode: 644

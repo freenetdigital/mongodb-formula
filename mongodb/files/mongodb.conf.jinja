@@ -2,17 +2,6 @@
 
 # This file is managed by Salt!
 
-{% if 'mongod_settings' in mdb -%}
-
-# mongod.conf
-
-# for documentation of all options, see:
-#   http://docs.mongodb.org/manual/reference/configuration-options/
-
-{{ mdb.mongod_settings | yaml(false) }}
-
-{%- else -%}
-
 # mongodb.conf
 
 # Where to store the data.
@@ -52,5 +41,3 @@ rest={{ mdb.settings.rest }}
 {% for k, v in mdb.settings.set_parameter | default({}) | dictsort() %}
 setParameter = {{ k }}={{ v }}
 {%- endfor %}
-
-{%- endif %}
