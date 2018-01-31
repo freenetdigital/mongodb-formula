@@ -13,10 +13,18 @@
 mongodb_repo:
   pkgrepo.managed:
     - humanname: MongoDB.org Repository
+    {%- if mdb.custom_repo_url != '' %}
+    - name: deb {{mdb.custom_repo_url}} {{ code }}/mongodb-org/{{ mdb.version }} {{ mdb.repo_component }}
+    {%- else %}
     - name: deb http://repo.mongodb.org/apt/{{ os }} {{ code }}/mongodb-org/{{ mdb.version }} {{ mdb.repo_component }}
+    {%- endif %}
     - file: /etc/apt/sources.list.d/mongodb-org.list
+    {%- if mdb.custom_repo_gpgkey_source != '' %}
+    - key_url: {{ mdb.custom_repo_gpgkey_source }}/server-{{ mdb.version }}.asc
+    {%- else %}
     - keyid: {{ mdb.keyid }}
     - keyserver: keyserver.ubuntu.com
+    {%- endif %}
 
   {%- elif grains['os_family'] == 'RedHat' %}
 

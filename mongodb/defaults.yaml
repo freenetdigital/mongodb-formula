@@ -1,5 +1,8 @@
 mongodb:
   use_repo: False
+  custom_repo_url:
+  custom_repo_gpgkey_source:
+
   # This is useful default with use_repo: True
   version: stable
 

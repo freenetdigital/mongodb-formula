@@ -3,8 +3,11 @@
 ## verbatim. The storage:dbPath and systemLog:path entries are required in
 ## this usage and take precedence over db_path at the top level (see references
 ## in mongodb/init.sls).
+
 mongodb:
   use_repo: True
+  custom_repo_url: http://apt-cacher.example.com/repo.mongodb.org/apt/{{ grains['os'] | lower() }}/{{ grains['oscodename']) }}/mongodb-org
+  custom_repo_gpgkey_source: http://custom-url.example.com/mongodb
   version: 3.2 # use oldstable in for 1.8 - 2.6
   repo_component: multiverse    # this is for Ubuntu, use 'main' for Debian
   mongodb_package: mongodb-org
