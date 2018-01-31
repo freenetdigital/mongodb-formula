@@ -51,10 +51,16 @@ mongos_init:
     - mode: 644
 
 mongos_config:
+{%- if 'mongos_settings' in ms %}
+  file.serialize:
+    - dataset: {{ ms.mongos_settings }}
+    - formatter: yaml
+{%- else %}
   file.managed:
-    - name: {{ ms.conf_path }}
     - source: salt://mongodb/files/mongos.conf.jinja
     - template: jinja
+{%- endif %}
+    - name: {{ ms.conf_path }}
     - user: root
     - group: root
     - mode: 644
