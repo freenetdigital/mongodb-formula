@@ -5,6 +5,7 @@ xenial:
   use_repo: True
   repo_component: multiverse
   mongodb_package: mongodb-org
+  mongodb_client_package: mongodb-org-shell
 
   mongod: mongod
   conf_path: /etc/mongod.conf
@@ -27,6 +28,7 @@ trusty:
   use_repo: True
   repo_component: multiverse
   mongodb_package: mongodb-org
+  mongodb_client_package: mongodb-org-shell
 
   mongod: mongod
   conf_path: /etc/mongod.conf
@@ -48,6 +50,7 @@ precise:
   use_repo: True
   repo_component: multiverse
   mongodb_package: mongodb-org
+  mongodb_client_package: mongodb-org-shell
 
   mongod: mongod
   conf_path: /etc/mongod.conf

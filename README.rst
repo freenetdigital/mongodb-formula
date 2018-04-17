@@ -23,6 +23,11 @@ repository at `repo.mongodb.org`_.
 
 .. _`repo.mongodb.org`: https://repo.mongodb.org/
 
+``mongodb.client``
+---------------------
+
+Install MongoDB shell client.
+
 ``mongodb.logrotate``
 ---------------------
 
