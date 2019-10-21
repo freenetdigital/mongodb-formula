@@ -8,7 +8,11 @@
   {%- if grains['os_family'] == 'Debian' %}
 
     {%- set os   = salt['grains.get']('os') | lower() %}
+    {%- if mdb.custom_oscode != '' %}
+    {%- set code = mdb.custom_oscode %}
+    {%- else %}
     {%- set code = salt['grains.get']('oscodename') %}
+    {%- endif %}
 
 mongodb_repo:
   pkgrepo.managed:
