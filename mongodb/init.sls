@@ -71,7 +71,7 @@ mongodb_log_path:
     {%- endif %}
     - user: {{ mdb.mongodb_user }}
     - group: {{ mdb.mongodb_group }}
-    - mode: 755
+    - dir_mode: 755
     - makedirs: True
     - recurse:
       - user
@@ -86,7 +86,7 @@ mongodb_db_path:
     {%- endif %}
     - user: {{ mdb.mongodb_user }}
     - group: {{ mdb.mongodb_group }}
-    - mode: 755
+    - dir_mode: 755
     - makedirs: True
     - recurse:
       - user
