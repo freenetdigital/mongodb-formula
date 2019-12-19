@@ -83,7 +83,6 @@ mongodb_db_path:
     {%- endif %}
     - user: {{ mdb.mongodb_user }}
     - group: {{ mdb.mongodb_group }}
-    - dir_mode: 755
     - makedirs: True
 
 mongodb_config:
