@@ -73,9 +73,6 @@ mongodb_log_path:
     - group: {{ mdb.mongodb_group }}
     - dir_mode: 755
     - makedirs: True
-    - recurse:
-      - user
-      - group
 
 mongodb_db_path:
   file.directory:
@@ -88,9 +85,6 @@ mongodb_db_path:
     - group: {{ mdb.mongodb_group }}
     - dir_mode: 755
     - makedirs: True
-    - recurse:
-      - user
-      - group
 
 mongodb_config:
 {%- if 'mongod_settings' in mdb %}
