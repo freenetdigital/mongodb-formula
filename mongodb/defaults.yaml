@@ -41,6 +41,7 @@ mongodb:
     group: mongodb
 
     mongod:
+      enabled: true
       service: mongod
       shortcut: false
       package: mongodb-org-server
@@ -79,6 +80,7 @@ mongodb:
           TasksAccounting: false
 
     mongos:
+      enabled: false
       service: mongos
       shortcut: false
       package: mongodb-org-mongos
