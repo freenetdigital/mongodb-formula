@@ -54,17 +54,17 @@ mongodb:
           dbPath: /var/lib/mongodb/mongod
           journal:
             enabled: true
-        replication:
-          replSetName: "rs1"
-        sharding:
-          clusterRole: shardsvr
+ #       replication:
+#          replSetName: "rs1"
+#        sharding:
+#          clusterRole: shardsvr
         net:
           bindIp: '{{ grains.ipv4[-1] or grains.ipv6[-1] }}'
           port: 27018
-        processManagement:
-          timeZoneInfo: /usr/share/zoneinfo
-          fork: true
-          pidFilePath: /var/run/mongodb/mongod.pid
+##        processManagement:
+#          timeZoneInfo: /usr/share/zoneinfo
+#          fork: true
+#          pidFilePath: /var/run/mongodb/mongod.pid
       systemd:
         file: /usr/lib/systemd/system/mongod.service
         conf:
