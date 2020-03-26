@@ -29,6 +29,7 @@ mongodb:
     binpath: /usr/local
 
   server:
+    phyton_enabled: false
     package: mongodb-org
     version: 4.0
     use_repo: true

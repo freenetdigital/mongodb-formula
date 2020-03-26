@@ -32,6 +32,7 @@ mongodb server user and group present:
       - {{ mongodb.server.group }}
     {%- endif %}
 
+{%- if mongodb.server['phyton_enabled'] == true %}
 mongodb server tools pypip package:
   pkg.installed:
     - name: {{ mongodb.system.pip }}
@@ -43,6 +44,7 @@ mongodb server tools pymongo package:
     - reload_modules: True
     - require:
       - pkg: mongodb server tools pypip package
+{%- endif %}
 
 {%- for svc in ('mongod', 'mongos',) %}
 
