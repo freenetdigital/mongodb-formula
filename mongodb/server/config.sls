@@ -46,6 +46,8 @@ mongodb server tools pymongo package:
 
 {%- for svc in ('mongod', 'mongos',) %}
 
+{%- if mongodb.server[svc]['enabled'] == true %}
+
   {%- if "processManagement" in mongodb.server[svc]['conf'] and mongodb.server[svc]['conf']['processManagement']['pidFilePath'] %}
      {%- set pidpath = salt['file.dirname']( mongodb.server[svc]['conf']['processManagement']['pidFilePath']) %}
   {%- else %}
@@ -331,4 +333,5 @@ mongodb server shell etc mongorc add:
       - user: mongodb server user and group present
 
      {%- endif %}
+{%- endif %}
 {%- endfor %}
