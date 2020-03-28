@@ -32,7 +32,7 @@ mongodb server user and group present:
       - {{ mongodb.server.group }}
     {%- endif %}
 
-{%- if mongodb.server['phyton_enabled'] == true %}
+{%- if mongodb.server['python_enabled'] == true %}
 mongodb server tools pypip package:
   pkg.installed:
     - name: {{ mongodb.system.pip }}
