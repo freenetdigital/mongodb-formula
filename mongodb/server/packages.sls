@@ -3,6 +3,14 @@
 # vim: ft=yaml
 {% from 'mongodb/map.jinja' import mongodb with context %}
 
+{%- if mongodb.use_repo %}
+  
+mongodb package repo:
+  pkgrepo.managed:
+    - name: deb {{ mongodb.custom_repo_url}} {{ salt['grains.get']('oscodename') }}/mongodb-org/{{ mongodb.version }} multiverse
+    - key_url: {{ mongodb.custom_repo_gpgkey_source }}/server-{{ mongodb.version }}.asc
+{%- else %}
+
   {%- if mongodb.server.use_repo %}
 
 mongodb server package repo:
@@ -28,6 +36,8 @@ mongodb server package repo:
       - mongodb server package installed
 
   {%- endif %}
+
+{%- endif %}
 
 mongodb server package installed:
   pkg.installed:
