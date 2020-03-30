@@ -1,37 +1,51 @@
-{% from 'mongodb/map.jinja' import mongodb with context %}
+{%- from 'mongodb/map.jinja' import mdb with context -%}
 
-{%- if mongodb.use_repo %}
-  
-mongodb package repo:
+{%- if mdb.use_repo %}
+
+  {%- if grains['os_family'] == 'Debian' %}
+
+    {%- set os   = salt['grains.get']('os') | lower() %}
+    {%- set code = salt['grains.get']('oscodename') %}
+
+mongodb_repo:
   pkgrepo.managed:
-    - name: deb {{ mongodb.custom_repo_url}} {{ salt['grains.get']('oscodename') }}/mongodb-org/{{ mongodb.version }} multiverse
-    - key_url: {{ mongodb.custom_repo_gpgkey_source }}/server-{{ mongodb.version }}.asc
-
-{%- else %}
-
-  {%- if mongodb.server.use_repo %}
-
-mongodb server package repo:
-  pkgrepo.managed:
-    - name: {{ mongodb.server.repo.name|replace('RELEASE', mongodb.server.version) }}
-    - enabled: {{ mongodb.server.repo.enabled }}
-
-    {%- if grains['os_family'] in ('Ubuntu', 'Debian',) %}
-
-    - file: {{ mongodb.server.repo.file|replace('RELEASE', mongodb.server.version) }}
-    - keyid: {{ mongodb.server.repo.keyid }}
-    - keyserver: {{ mongodb.server.repo.keyserver }}
-
-    {%- elif grains['os_family'] in ('RedHat',) %}
-
-    - gpgkey: {{ mongodb.server.repo.gpgkey|replace('RELEASE', mongodb.server.version) }}
-    - baseurl: {{ mongodb.server.repo.baseurl|replace('RELEASE', mongodb.server.version) }}
-    - gpgcheck: {{ mongodb.server.repo.gpgcheck }}
-    - humanname: {{ mongodb.server.repo.humanname|replace('RELEASE', mongodb.server.version) }}
-
+    - humanname: MongoDB.org Repository
+    {%- if mdb.custom_repo_url != '' %}
+    - name: deb {{mdb.custom_repo_url}} {{ code }}/mongodb-org/{{ mdb.version }} {{ mdb.repo_component }}
+    {%- else %}
+    - name: deb http://repo.mongodb.org/apt/{{ os }} {{ code }}/mongodb-org/{{ mdb.version }} {{ mdb.repo_component }}
     {%- endif %}
-    - require_in:
-      - mongodb server package installed
+    - file: /etc/apt/sources.list.d/mongodb-org.list
+    {%- if mdb.custom_repo_gpgkey_source != '' %}
+    - key_url: {{ mdb.custom_repo_gpgkey_source }}/server-{{ mdb.version }}.asc
+    {%- else %}
+    - keyid: {{ mdb.keyid }}
+    - keyserver: keyserver.ubuntu.com
+    {%- endif %}
+
+  {%- elif grains['os_family'] == 'RedHat' %}
+
+mongodb_repo:
+  pkgrepo.managed:
+    {%- if mdb.version == 'stable' %}
+    - name: mongodb-org
+    - humanname: MongoDB.org Repository
+    - gpgkey: https://www.mongodb.org/static/pgp/server-3.2.asc
+    - baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/{{ mdb.version }}/$basearch/
+    - gpgcheck: 1
+    {%- elif mdb.version == 'oldstable' %}
+    - name: mongodb-org-{{ mdb.version }}
+    - humanname: MongoDB oldstable Repository
+    - baseurl: http://downloads-distro.mongodb.org/repo/redhat/os/$basearch/
+    - gpgcheck: 0
+    {%- else %}
+    - name: mongodb-org-{{ mdb.version }}
+    - humanname: MongoDB {{ mdb.version | capitalize() }} Repository
+    - gpgkey: https://www.mongodb.org/static/pgp/server-{{ mdb.version }}.asc
+    - baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/{{ mdb.version }}/$basearch/
+    - gpgcheck: 1
+    {%- endif %}
+    - disabled: 0
 
   {%- endif %}
 
@@ -39,4 +53,4 @@ mongodb server package repo:
 
 mongodb_client_package:
   pkg.installed:
-    - name:  mongodb-org-shell
+    - name: {{ mdb.mongodb_client_package }}
