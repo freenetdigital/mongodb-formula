@@ -88,7 +88,7 @@ mongodb_db_path:
 mongodb_config:
 {%- if 'mongod_settings' in mdb %}
   file.serialize:
-    - dataset: {{ mdb.mongod_settings }}
+    - dataset: {{ mdb.mongod_settings | tojson }}
     - formatter: yaml
 {%- else %}
   file.managed:
