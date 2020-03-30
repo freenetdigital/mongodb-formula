@@ -5,7 +5,7 @@
 mongodb package repo:
   pkgrepo.managed:
     - name: deb {{ mongodb.custom_repo_url}} {{ salt['grains.get']('oscodename') }}/mongodb-org/{{ mongodb.version }} {{ mongodb.repo_component }}
-    - key_url: {{ mdb.custom_repo_gpgkey_source }}/server-{{ mdb.version }}.asc
+    - key_url: {{ mongodb.custom_repo_gpgkey_source }}/server-{{ mongodb.version }}.asc
 
 {%- else %}
 
